@@ -1,0 +1,7 @@
+name: ReviveMCLobby
+author: leTobiCW
+version: 1.0
+main: de.revivemc.lobby.Lobby
+commands:
+  build:
+  armorstands:
