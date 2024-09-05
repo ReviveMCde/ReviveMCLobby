@@ -33,8 +33,6 @@ public class CyturaPlayerJoinListener implements Listener {
     public void onCyturaPlayerJoin(ReviveMCPlayerJoinEvent event) {
         final Player player = event.getPlayer();
         final ReviveMCPlayer reviveMCPlayer = ReviveMCAPI.getInstance().getCyturaPlayerManager().getPlayers().get(player.getUniqueId());
-        final String prefix = Lobby.getInstance().getPrefix(reviveMCPlayer);
-        Lobby.getInstance().insertPlayer(player.getUniqueId());
         player.teleport(new LocationModule(player.getLocation()).loadSpawnLocation());
         player.getInventory().clear();
         player.setFoodLevel(20);
@@ -42,6 +40,9 @@ public class CyturaPlayerJoinListener implements Listener {
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.removePotionEffect(PotionEffectType.SLOW);
         }
+
+        Lobby.getInstance().insertPlayer(player.getUniqueId());
+        final String prefix = Lobby.getInstance().getPrefix(reviveMCPlayer);
         if (Objects.equals(hasPlayerRulesAccepted(player.getUniqueId()), "false")) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 999, false, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 999, false, false));
@@ -50,17 +51,10 @@ public class CyturaPlayerJoinListener implements Listener {
 
         reviveMCPlayer.setTablist();
         new LobbyModule(reviveMCPlayer);
-        addDefaultProperty(reviveMCPlayer);
         new PlayerModule(player).setDefaultInventory(reviveMCPlayer);
         new ScoreboardModule().buildScoreboard(reviveMCPlayer);
         player.teleport(new LocationModule(player.getLocation()).loadSpawnLocation());
 
-    }
-
-    public void addDefaultProperty(ReviveMCPlayer cyturaPlayer) {
-        cyturaPlayer.addProperty("coins", 500);
-        cyturaPlayer.addProperty("color", "§9");
-        cyturaPlayer.addProperty("colorsub", "§b");
     }
 
     public static String hasPlayerRulesAccepted(UUID uuid) {
@@ -74,6 +68,12 @@ public class CyturaPlayerJoinListener implements Listener {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void addDefaultProperty(ReviveMCPlayer cyturaPlayer) {
+        cyturaPlayer.addProperty("coins", 500);
+        cyturaPlayer.addProperty("color", "§9");
+        cyturaPlayer.addProperty("colorsub", "§b");
     }
 
 }
