@@ -11,16 +11,19 @@ public class ScoreboardModule {
     public void buildScoreboard(final ReviveMCPlayer cyturaPlayer) {
         cyturaPlayer.initialScoreboard();
         final ReviveMCScoreboardBuilder cyturaScoreboardBuilder = cyturaPlayer.getCyturaScoreboardBuilder();
-        cyturaScoreboardBuilder.setLine(10, "§8§m---------", "§8§m---------");
+        cyturaScoreboardBuilder.setLine(13, "§8§m---------", "§8§m---------");
+        cyturaScoreboardBuilder.setLine(12, " ", " ");
+        cyturaScoreboardBuilder.setLine(11, " §8§l» ", "§7Rang");
+        cyturaScoreboardBuilder.setLine(10, " §8» ", cyturaPlayer.getPermissionGroupColor() + cyturaPlayer.getPermissionGroup().getName());
         cyturaScoreboardBuilder.setLine(9, " ", " ");
-        cyturaScoreboardBuilder.setLine(8, " §8§l» ", "§7Rang");
-        cyturaScoreboardBuilder.setLine(7, " §8» ", cyturaPlayer.getPermissionGroupColor() + cyturaPlayer.getPermissionGroup().getName());
+        cyturaScoreboardBuilder.setLine(8, " §8§l» ", "§7Coins");
+        cyturaScoreboardBuilder.setLine(7, " §8» ", cyturaPlayer.getSecondColor() + "§l" + cyturaPlayer.getProperty("coins").getValueAsString());
         cyturaScoreboardBuilder.setLine(6, " ", " ");
-        cyturaScoreboardBuilder.setLine(5, " §8§l» ", "§7Coins");
-        cyturaScoreboardBuilder.setLine(4, " §8» ", cyturaPlayer.getSecondColor() + "§l" + cyturaPlayer.getProperty("coins").getValueAsString());
+        cyturaScoreboardBuilder.setLine(5, " §8§l» ", "§7Level");
+        cyturaScoreboardBuilder.setLine(4, " §8» ", cyturaPlayer.getSecondColor() + "0");
         cyturaScoreboardBuilder.setLine(3, " ", " ");
-        cyturaScoreboardBuilder.setLine(2, " §8§l» ", "§7Discord");
-        cyturaScoreboardBuilder.setLine(1, " §8» ", cyturaPlayer.getSecondColor() + "discord.gg/");
+        cyturaScoreboardBuilder.setLine(2, " §8§l» ", "§7RevivePass");
+        cyturaScoreboardBuilder.setLine(1, " §8» ", "§c✘");
         cyturaScoreboardBuilder.setLine(0, " ", " ");
         MinecraftServer.getServer().postToMainThread(() -> {
             cyturaScoreboardBuilder.setBoard(cyturaPlayer.getFirstColor() + "§lReviveMC §8× §7Lobby");
