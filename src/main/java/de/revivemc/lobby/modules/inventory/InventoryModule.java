@@ -267,6 +267,17 @@ public class InventoryModule {
         openInventory(inventory);
     }
 
+    public void openRevivePassInventory(final int site) {
+        if (site == 0) {
+            final Inventory inventory = Bukkit.createInventory(null, 9 * 3, "§8» §9RevivePass §8«");
+
+            setPlaceholder(inventory);
+            inventory.setItem();
+
+            openInventory(inventory);
+        }
+    }
+
     public void openLobbyShopInventory(final int site) {
         if (site == 1) {
             final Inventory inventory = Bukkit.createInventory(null, 9 * 6, "§8» §aLobby §8× §7Shop §8«");
@@ -311,6 +322,8 @@ public class InventoryModule {
 
         openInventory(inventory);
     }
+
+
 
     private void openInventory(final Inventory inventory) {
         player.openInventory(inventory);

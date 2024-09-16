@@ -194,7 +194,7 @@ public class InventoryClickListener implements Listener {
                     reviveMCPlayer.update();
 
                     ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
-                    cyturaScoreboardBuilder.updateBoard(4, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
+                    cyturaScoreboardBuilder.updateBoard(7, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
                     PlayerCooldown.setTime(player.getUniqueId(), String.valueOf(System.currentTimeMillis() + 86400000));
                 } else {
                     player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du musst noch " + reviveMCPlayer.getSecondColor() + PlayerCooldown.remainingTime(player.getUniqueId()) + " §7warten.");
@@ -215,7 +215,7 @@ public class InventoryClickListener implements Listener {
                     reviveMCPlayer.update();
 
                     ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
-                    cyturaScoreboardBuilder.updateBoard(4, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
+                    cyturaScoreboardBuilder.updateBoard(7, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
                     PremiumCooldown.setTime(player.getUniqueId(), String.valueOf(System.currentTimeMillis() + 86400000));
                 } else {
                     player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du musst noch " + reviveMCPlayer.getSecondColor() + PremiumCooldown.remainingTime(player.getUniqueId()) + " §7warten.");
@@ -237,7 +237,7 @@ public class InventoryClickListener implements Listener {
                     reviveMCPlayer.update();
 
                     ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
-                    cyturaScoreboardBuilder.updateBoard(4, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
+                    cyturaScoreboardBuilder.updateBoard(7, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
                     DeluxeCooldown.setTime(player.getUniqueId(), String.valueOf(System.currentTimeMillis() + 86400000));
                 } else {
                     player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du musst noch " + reviveMCPlayer.getSecondColor() + DeluxeCooldown.remainingTime(player.getUniqueId()) + " §7warten.");
@@ -655,9 +655,8 @@ public class InventoryClickListener implements Listener {
 
                 new GameSync(reviveMCPlayer).setUserSync(new String[]{dataUUID}, "true");
 
-                ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
-                cyturaScoreboardBuilder.updateBoard(4, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
-
+                final ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
+                cyturaScoreboardBuilder.updateBoard(7, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
 
                 player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du hast dir erfolgreich das Gadget für " + reviveMCPlayer.getSecondColor() + price + " §7Coins gekauft.");
             }
