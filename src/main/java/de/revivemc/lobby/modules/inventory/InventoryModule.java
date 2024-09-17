@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import de.revivemc.core.ReviveMCAPI;
 import de.revivemc.core.playerutils.ReviveMCPlayer;
 import de.revivemc.lobby.modules.friend.FriendModule;
+import de.revivemc.lobby.modules.revivepass.RevivePassModule;
 import eu.thesimplecloud.api.CloudAPI;
 import eu.thesimplecloud.api.service.ICloudService;
 import de.revivemc.core.entitiesutils.items.ItemCreator;
@@ -270,9 +271,16 @@ public class InventoryModule {
     public void openRevivePassInventory(final int site) {
         if (site == 0) {
             final Inventory inventory = Bukkit.createInventory(null, 9 * 3, "§8» §9RevivePass §8«");
+            final RevivePassModule revivePassModule = new RevivePassModule(player.getUniqueId());
 
             setPlaceholder(inventory);
-            inventory.setItem();
+            inventory.setItem(13, new ItemCreator(Material.PAPER).setAmount(1).setName("§8» §7Informationen").setLore(" ", "§7Der RevivePass ermöglicht es dir Belohnungen wie Coins, Gadgets, Perks", "§7und vieles weiteres Freigeschalten werden.", " ").toItemStack());
+
+            if (revivePassModule.getPurchaseState().equalsIgnoreCase("false")) {
+                inventory.setItem(29, new ItemCreator(Material.BOOK).setName("").setAmount(1).toItemStack());
+            } else {
+
+            }
 
             openInventory(inventory);
         }
