@@ -1,6 +1,7 @@
 package de.revivemc.lobby.listener.inventory;
 
 import de.revivemc.core.playerutils.ReviveMCPlayer;
+import de.revivemc.lobby.modules.revivepass.RevivePassModule;
 import eu.thesimplecloud.api.CloudAPI;
 import eu.thesimplecloud.api.player.ICloudPlayer;
 import eu.thesimplecloud.api.player.connection.IPlayerAddress;
@@ -71,6 +72,42 @@ public class InventoryClickListener implements Listener {
             if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §9BuildFFA")) {
                 player.teleport(new LocationModule(player.getLocation()).loadBuildFFALocation());
                 player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1, 1);
+            }
+        }
+
+        if (event.getInventory().getName().equalsIgnoreCase("§8» §9RevivePass §8«")) {
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§6Kaufen für 100.000 Coins.")) {
+                inventoryModule.openRevivePassInventory(90);
+            }
+        }
+
+        if (event.getInventory().getName().equalsIgnoreCase("§8» §9RevivePass §8× §aKaufen §8«")) {
+            final RevivePassModule revivePassModule = new RevivePassModule(player.getUniqueId());
+
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §aKaufen §8× §6100.000 §7Coins")) {
+                if (Integer.parseInt(reviveMCPlayer.getProperty("coins").getValueAsString()) <= 100000) {
+                    player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "§cDu hast nicht ausreichende Coins um den RevivePass zu kaufen.");
+                    player.playSound(player.getLocation(), Sound.ANVIL_BREAK, 1, 1);
+                    event.getView().close();
+                    return;
+                }
+
+                revivePassModule.setPurchaseState("true");
+                reviveMCPlayer.setProperty("coins", Integer.parseInt(reviveMCPlayer.getProperty("coins").getValueAsString()) - 100000);
+                reviveMCPlayer.update();
+
+                final ReviveMCScoreboardBuilder cyturaScoreboardBuilder = reviveMCPlayer.getCyturaScoreboardBuilder();
+                cyturaScoreboardBuilder.updateBoard(7, " §8» ", reviveMCPlayer.getSecondColor() + "§l" + reviveMCPlayer.getProperty("coins").getValueAsString());
+                cyturaScoreboardBuilder.updateBoard(1, " §8» ", "§a✔ §8| " + reviveMCPlayer.getSecondColor() + revivePassModule.getRevivePassLevel());
+
+                player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du hast dir §aerfolgreich §7den RevivePass gekauft.");
+                event.getView().close();
+            }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §cAbbrechen")) {
+                event.getView().close();
             }
         }
 
@@ -642,7 +679,7 @@ public class InventoryClickListener implements Listener {
             }
 
             if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §aKaufen §8× §7" + price + " Coins")) {
-                if (Integer.parseInt(reviveMCPlayer.getProperty("coins").getValueAsString()) < price) {
+                if (Integer.parseInt(reviveMCPlayer.getProperty("coins").getValueAsString()) <= price) {
                     player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "§cDu hast nicht ausreichende Coins um dieses Gadget zu kaufen.");
                     player.playSound(player.getLocation(), Sound.ANVIL_BREAK, 1, 1);
                     event.getView().close();

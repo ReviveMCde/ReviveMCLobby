@@ -11,15 +11,21 @@ public class EntityInteractListener implements Listener {
     @EventHandler
     public void onEntityInteract(PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked().getType() == EntityType.ARMOR_STAND) {
+            final InventoryModule inventoryModule = new InventoryModule(event.getPlayer());
 
             if (event.getRightClicked().getCustomName().equalsIgnoreCase("§8» §bShop §8«")) {
 
-                new InventoryModule(event.getPlayer()).openShopInventory();
+                inventoryModule.openShopInventory();
             }
 
             if (event.getRightClicked().getCustomName().equalsIgnoreCase("§8» §6Tägliche Belohnung §8«")) {
 
-                new InventoryModule(event.getPlayer()).openDailyRewardInventory();
+                inventoryModule.openDailyRewardInventory();
+            }
+
+            if (event.getRightClicked().getCustomName().equalsIgnoreCase("§8» §9RevivePass §8«")) {
+
+                inventoryModule.openRevivePassInventory(0);
             }
         }
     }

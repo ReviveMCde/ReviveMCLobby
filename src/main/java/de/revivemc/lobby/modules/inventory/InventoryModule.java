@@ -270,17 +270,30 @@ public class InventoryModule {
 
     public void openRevivePassInventory(final int site) {
         if (site == 0) {
-            final Inventory inventory = Bukkit.createInventory(null, 9 * 3, "§8» §9RevivePass §8«");
+            final Inventory inventory = Bukkit.createInventory(null, 9 * 6, "§8» §9RevivePass §8«");
             final RevivePassModule revivePassModule = new RevivePassModule(player.getUniqueId());
 
             setPlaceholder(inventory);
-            inventory.setItem(13, new ItemCreator(Material.PAPER).setAmount(1).setName("§8» §7Informationen").setLore(" ", "§7Der RevivePass ermöglicht es dir Belohnungen wie Coins, Gadgets, Perks", "§7und vieles weiteres Freigeschalten werden.", " ").toItemStack());
-
+            inventory.setItem(13, new ItemCreator(Material.PAPER).setName("§8» §7Informationen").setLore("§7Der RevivePass ermöglicht es dir", "§6Belohnungen §7wie Coins, Gadgets, Perks", "§7und vieles weiteres Freizuschalten.").setAmount(1).toItemStack());
             if (revivePassModule.getPurchaseState().equalsIgnoreCase("false")) {
-                inventory.setItem(29, new ItemCreator(Material.BOOK).setName("").setAmount(1).toItemStack());
+                inventory.setItem(22, new ItemCreator(Material.BOOK).setName("§cDu besitzt nicht den RevivePass.").setLore("§7Du kannst den RevivePass entweder", "§7mit 100.000 Coins kaufen oder im Online-Shop:", "§bhttps://shop.ReviveMC.de/").setAmount(1).toItemStack());
+                inventory.setItem(40, new ItemCreator(Material.GOLD_BLOCK).setName("§6Kaufen für 100.000 Coins.").setAmount(1).toItemStack());
             } else {
-
+                inventory.setItem(22, new ItemCreator("399ad7a0431692994b6c412c7eafb9e0fc49975240b73a27d24ed797035fb894").setName("§7Dein Fortschritt:").setLore("§7RevivePass Level: §a" + revivePassModule.getRevivePassLevel(), "§7RevivePoints zum nächsten Level: §a" + revivePassModule.getPlayerPointsToNextLevel()).setAmount(1).toItemStack());
+                inventory.setItem(40, new ItemCreator("a988419dd5b386f698a96913db1d97c2418e16d416d7f439d48acd41e3a436ce").setName("§9RevivePass Levels").setAmount(1).toItemStack());
             }
+            openInventory(inventory);
+        }
+
+
+        if (site == 90) {
+            final Inventory inventory = Bukkit.createInventory(null, 9*3, "§8» §9RevivePass §8× §aKaufen §8«");
+
+            setPlaceholder(inventory);
+            inventory.setItem(4, new ItemCreator(Material.PAPER).setName("§9RevivePass §7kaufen für §6100.000 §7Coins").setLore("§c§lDieser Kauf kann nicht rückgängig gemacht werden!").setAmount(1).toItemStack());
+
+            inventory.setItem(11, new ItemCreator("9cb81a35d2b48d5fd81249369433c078b7c8bf42df5aa9c375c1ac85f4514").setName("§8» §aKaufen §8× §6100.000 §7Coins").toItemStack());
+            inventory.setItem(15, new ItemCreator("f9a51f27d2d938897bc42a3fe2c3135da2671686f57824115f8f8da78a").setName("§8» §cAbbrechen").toItemStack());
 
             openInventory(inventory);
         }
