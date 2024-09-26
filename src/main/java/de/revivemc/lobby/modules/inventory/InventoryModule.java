@@ -143,33 +143,40 @@ public class InventoryModule {
         openInventory(inventory);
     }
 
-    public void openQuickJumpInventory() {
-        final Inventory inventory = Bukkit.createInventory(null, 9 * 5, "§8» §eQuickJoin §8«");
-        final ItemStack pane = new ItemCreator(Material.STAINED_GLASS_PANE, (short) 7).setName(" ").setAmount(1).toItemStack();
+    public void openQuickJumpInventory(int siteId) {
+        if (siteId == 0) {
+            final Inventory inventory = Bukkit.createInventory(null, 9*5, "§8» §eQuickJoin §8«");
+            setPlaceholder(inventory);
 
-        for (int i = 0; i < 9; i++) {
-            inventory.setItem(i, pane);
+            inventory.setItem(13, new ItemCreator(Material.BED).setName("§8» §cBedWars §8«").setAmount(1).setFlags().toItemStack());
+
+            openInventory(inventory);
+        } else if (siteId == 1) {
+            final Inventory inventory = Bukkit.createInventory(null, 9 * 5, "§8» §eQuickJoin §8× §cBedWars §8«");
+            final ItemStack pane = new ItemCreator(Material.STAINED_GLASS_PANE, (short) 7).setName(" ").setAmount(1).toItemStack();
+
+            for (int i = 0; i < 9; i++) {
+                inventory.setItem(i, pane);
+            }
+
+            for (int i = 36; i < 45; i++) {
+                inventory.setItem(i, pane);
+            }
+
+            final ArrayList<ICloudService> bedwarsserver = Lists.newArrayList();
+            bedwarsserver.addAll(CloudAPI.getInstance().getCloudServiceManager().getCloudServicesByGroupName("BW-2x1"));
+
+            for (int i = 9; i < 36; i++) {
+                int slotId = i;
+                bedwarsserver.forEach(bedwars -> {
+                    inventory.setItem(slotId, new ItemCreator(Material.BED).setName("§7" + bedwars.getName()).setLore("§7" + bedwars.getName(), "§7Map §8» §7" + bedwars.getMOTD()).setAmount(bedwars.getOnlineCount()).setFlags().toItemStack());
+                });
+            }
+
+            addBackToPage(inventory);
+            openInventory(inventory);
         }
 
-        for (int i = 36; i < 45; i++) {
-            inventory.setItem(i, pane);
-        }
-
-
-        final ArrayList<ICloudService> buildffaservers = Lists.newArrayList();
-        buildffaservers.addAll(CloudAPI.getInstance().getCloudServiceManager().getCloudServicesByGroupName("BuildFFA"));
-        /*ArrayList<ICloudService> mlgrushservers = Lists.newArrayList();
-        mlgrushservers.addAll(CloudAPI.getInstance().getCloudServiceManager().getCloudServicesByGroupName("MLGRush"));
-        ArrayList<ICloudService> rushfightservers = Lists.newArrayList();
-        rushfightservers.addAll(CloudAPI.getInstance().getCloudServiceManager().getCloudServicesByGroupName("RF-2x1"));
-        ArrayList<ICloudService> bedwarsserver = Lists.newArrayList();
-        bedwarsserver.addAll(CloudAPI.getInstance().getCloudServiceManager().getCloudServicesByGroupName("BW-2x1")); */
-
-        buildffaservers.forEach(buildffa -> {
-            inventory.setItem(9, new ItemCreator(Material.IRON_SWORD).setName("§8» §7" + buildffa.getName()).setAmount(buildffa.getOnlineCount()).toItemStack());
-        });
-
-        openInventory(inventory);
     }
 
     public void openShopInventory() {

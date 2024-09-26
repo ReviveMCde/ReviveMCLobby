@@ -35,7 +35,7 @@ public class Lobby extends JavaPlugin {
         databaseDriver.update("CREATE TABLE IF NOT EXISTS deluxecooldown(UUID varchar(64), time varchar(100))");
         databaseDriver.update("CREATE TABLE IF NOT EXISTS revivemc_revivepass(UUID varchar(64), purchaseState varchar(12), revivepasslevel integer(3), pointsToNextLevel integer(255))");
         databaseDriver.update("CREATE TABLE IF NOT EXISTS revivemc_level(UUID varchar(64), level integer(100), pointsToNextLevel integer(255))");
-        databaseDriver.update("CREATE TABLE IF NOT EXISTS revivemc_lobby_player(UUID varchar(64), rules varchar(12))");
+        databaseDriver.update("CREATE TABLE IF NOT EXISTS revivemc_lobby_player(UUID varchar(64), rules varchar(12), nick varchar(12))");
         databaseDriver.update("CREATE TABLE IF NOT EXISTS revivemc_lobby_build(UUID varchar(64), state varchar(12))");
         initListener();
         initCommands();
@@ -99,7 +99,7 @@ public class Lobby extends JavaPlugin {
     public void insertPlayer(UUID uuid) {
         try {
             if (!playerExists(uuid)) {
-                getDatabaseDriver().update("INSERT INTO `revivemc_lobby_player`(`UUID`, `rules`) VALUES ('" + uuid + "' ,'false')");
+                getDatabaseDriver().update("INSERT INTO `revivemc_lobby_player`(`UUID`, `rules`, `nick`) VALUES ('" + uuid + "' ,'false', 'false')");
                 getDatabaseDriver().update("INSERT INTO `revivemc_revivepass`(`UUID`, `purchaseState`, `revivepasslevel`, `pointsToNextLevel`) VALUES ('" + uuid + "' ,'false', '0', '1000')");
                 getDatabaseDriver().update("INSERT INTO `revivemc_level`(`UUID`, `level`, `pointsToNextLevel`) VALUES ('" + uuid + "' ,'0', '1000')");
                 getDatabaseDriver().update("INSERT INTO `cooldown`(`UUID`, `time`) VALUES ('" + uuid + "' ,'0')");

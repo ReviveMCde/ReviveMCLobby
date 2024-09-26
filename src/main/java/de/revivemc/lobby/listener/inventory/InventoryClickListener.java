@@ -570,26 +570,39 @@ public class InventoryClickListener implements Listener {
         }
 
         if (event.getInventory().getName().equalsIgnoreCase("§8» §eQuickJoin §8«")) {
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §cBedWars §8«")) {
+                inventoryModule.openQuickJumpInventory(1);
+                return;
+            }
+
+
+        }
+
+        if (event.getInventory().getName().equalsIgnoreCase("§8» §eQuickJoin §8× §cBedWars §8«")) {
             final ICloudPlayer cloudPlayer = CloudAPI.getInstance().getCloudPlayerManager().getCachedCloudPlayer(player.getUniqueId());
             if (cloudPlayer == null) {
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §7BuildFFA-1")) {
-                final ICloudService service = CloudAPI.getInstance().getCloudServiceManager().getCloudServiceByName("BuildFFA-1");
-                if (service != null) {
-                    if (service.isOnline()) {
+
+            final ICloudService service = CloudAPI.getInstance().getCloudServiceManager().getCloudServiceByName(event.getCurrentItem().getItemMeta().getDisplayName());
+            if (service != null) {
+                if (service.isOnline()) {
+                    if (service.isActive()) {
                         if (!service.isFull()) {
                             event.getView().close();
-                            player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du befindest dich nun auf den BuildFFA-Server");
+                            player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du wirst nun auf dem Server " + reviveMCPlayer.getSecondColor() + service.getName() + " §7verbunden.");
                             cloudPlayer.connect(service);
+                            return;
                         } else {
-                            event.getView().close();
-                            player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Der BuildFFA-Server ist voll.");
+
                         }
                     } else {
                         event.getView().close();
-                        player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Der BuildFFA-Server wird noch gestartet...");
+                        player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Die Runde hat schon begeonnen.");
                     }
+                } else {
+                    event.getView().close();
+                    player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Der Server startet noch...");
                 }
             }
         }

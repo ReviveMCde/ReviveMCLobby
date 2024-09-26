@@ -16,6 +16,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +37,7 @@ public class CyturaPlayerJoinListener implements Listener {
         player.teleport(new LocationModule(player.getLocation()).loadSpawnLocation());
         player.getInventory().clear();
         player.setFoodLevel(20);
+        player.setGameMode(GameMode.SURVIVAL);
         if (player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
             player.removePotionEffect(PotionEffectType.BLINDNESS);
             player.removePotionEffect(PotionEffectType.SLOW);
