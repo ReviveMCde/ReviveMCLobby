@@ -18,7 +18,11 @@ public class ScoreboardModule {
         cyturaScoreboardBuilder.setLine(13, "§8§m---------", "§8§m---------");
         cyturaScoreboardBuilder.setLine(12, " ", " ");
         cyturaScoreboardBuilder.setLine(11, " §8§l» ", "§7Rang");
-        cyturaScoreboardBuilder.setLine(10, " §8» ", cyturaPlayer.getPermissionGroupColor() + cyturaPlayer.getPermissionGroup().getName());
+        if (cyturaPlayer.getPermissionGroup().getName().equalsIgnoreCase("Admin")) {
+            cyturaScoreboardBuilder.setLine(10, " §8» ", cyturaPlayer.getPermissionGroupColor() + "Administrator");
+        } else {
+            cyturaScoreboardBuilder.setLine(10, " §8» ", cyturaPlayer.getPermissionGroupColor() + cyturaPlayer.getPermissionGroup().getName());
+        }
         cyturaScoreboardBuilder.setLine(9, " ", " ");
         cyturaScoreboardBuilder.setLine(8, " §8§l» ", "§7Coins");
         cyturaScoreboardBuilder.setLine(7, " §8» ", cyturaPlayer.getSecondColor() + "§l" + cyturaPlayer.getProperty("coins").getValueAsString());

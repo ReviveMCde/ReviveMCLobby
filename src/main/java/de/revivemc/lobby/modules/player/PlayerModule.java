@@ -27,10 +27,16 @@ public class PlayerModule {
         player.getInventory().clear();
         player.getInventory().setItem(0, new ItemCreator(Material.COMPASS).setName("§8» §c§lNavigator §8× §7Rechtsklick").setAmount(1).toItemStack());
         player.getInventory().setItem(1, new ItemCreator(Material.REDSTONE_COMPARATOR).setName("§8» §b§lEinstellungen §8× §7Rechtsklick").setAmount(1).toItemStack());
-        if (gameSync.getUserSync("lobby.firework.status").equalsIgnoreCase("true")) {
-            player.getInventory().setItem(2, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete §8× §7Gadget").setAmount(1).toItemStack());
+        if (player.hasPermission("lobby.silentlobby")) {
+            player.getInventory().setItem(2, new ItemCreator(Material.TNT).setName("§8» §4§lSilent-Lobby §8× §7Rechtsklick").setAmount(1).setFlags().toItemStack());
         }
-        player.getInventory().setItem(4, new ItemCreator(Material.FIREWORK).addEnchant(Enchantment.THORNS, 1).setFlags().setName("§8» §e§lQuickJoin §8× §7Rechtsklick").setAmount(1).toItemStack());
+
+
+        if (gameSync.getUserSync("lobby.firework.status").equalsIgnoreCase("true")) {
+            player.getInventory().setItem(4, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete §8× §7Gadget").setAmount(1).toItemStack());
+        }
+        //Verschoben in Villager QuickJoin Menü
+        //player.getInventory().setItem(4, new ItemCreator(Material.FIREWORK).addEnchant(Enchantment.THORNS, 1).setFlags().setName("§8» §e§lQuickJoin §8× §7Rechtsklick").setAmount(1).toItemStack());
         if (player.hasPermission("lobby.nick")) {
             final NickModule nickModule = new NickModule(this.player.getUniqueId());
             if (nickModule.getNickState().equalsIgnoreCase("false")) {

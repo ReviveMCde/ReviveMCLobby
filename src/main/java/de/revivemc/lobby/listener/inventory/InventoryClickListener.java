@@ -190,7 +190,7 @@ public class InventoryClickListener implements Listener {
                         if (gameSync.getUserSync("lobby.firework.status").equalsIgnoreCase("false")) {
                             gameSync.setUserSync(new String[]{"lobby.firework.status"}, "true");
                             player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 2);
-                            player.getInventory().setItem(2, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete §8× §7Gadget").setAmount(1).toItemStack());
+                            player.getInventory().setItem(4, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete §8× §7Gadget").setAmount(1).toItemStack());
                             event.getView().close();
                         } else {
                             player.playSound(player.getLocation(), Sound.NOTE_BASS, 1, 2);
@@ -212,12 +212,35 @@ public class InventoryClickListener implements Listener {
                     }
                 }
             }
+
+            if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§8» §bLobbyFly")) {
+                GameSync gameSync = new GameSync(reviveMCPlayer);
+                if (gameSync.getUserSync("lobby.fly.buy").equalsIgnoreCase("false")) {
+                    lobbyShopBuyName = "§8» §bLobbyFly §8× §7Kaufen";
+                    lobbyShopBuyPrice = 3500;
+                    inventoryModule.openLobbyShopBuyInventory(lobbyShopBuyName, lobbyShopBuyPrice);
+                } else {
+                    if (event.getClick().isLeftClick()) {
+                        event.getView().close();
+                        player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Du hast dieses Gadget bereits erworben.");
+                        player.sendMessage(Lobby.getInstance().getPrefix(reviveMCPlayer) + "Um dieses Gadget benutzen zu können musst du in die Lobby-Einstellungen gehen.");
+                        player.playSound(player.getLocation(), Sound.ANVIL_BREAK, 1, 1);
+                    }
+                }
+            }
         }
 
         if (event.getInventory().getName().equalsIgnoreCase("§8» §cRakete §8× §7Kaufen")) {
             lobbyShopBuyData = "lobby.firework.buy";
             lobbyShopBuyId = 2;
             lobbyShopBuyPrice = 3500;
+            applyLobbyShopData(player, reviveMCPlayer, lobbyShopBuyData, lobbyShopBuyId, lobbyShopBuyPrice, event);
+        }
+
+        if (event.getInventory().getName().equalsIgnoreCase("§8» §bLobbyFly §8× §7Kaufen")) {
+            lobbyShopBuyData = "lobby.fly.buy";
+            lobbyShopBuyId = 2;
+            lobbyShopBuyPrice = 5000;
             applyLobbyShopData(player, reviveMCPlayer, lobbyShopBuyData, lobbyShopBuyId, lobbyShopBuyPrice, event);
         }
         

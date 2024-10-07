@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import de.revivemc.core.ReviveMCAPI;
 import de.revivemc.core.playerutils.ReviveMCPlayer;
 import de.revivemc.lobby.modules.friend.FriendModule;
+import de.revivemc.lobby.modules.level.LevelModule;
 import de.revivemc.lobby.modules.revivepass.RevivePassModule;
 import eu.thesimplecloud.api.CloudAPI;
 import eu.thesimplecloud.api.service.ICloudService;
@@ -89,8 +90,11 @@ public class InventoryModule {
 
     public void openLobbySettingsInventory() {
         final Inventory inventory = Bukkit.createInventory(null, 9 * 3, "§8» §bEinstellungen §8× §7Lobby §8«");
+        final GameSync gameSync = new GameSync(new ReviveMCPlayer(player.getUniqueId()));
 
         setPlaceholder(inventory);
+        inventory.setItem(11, new ItemCreator(Material.FEATHER).setName("§8» §bEinstellungen §8× §7Lobby §8«").setAmount(1).setFlags().toItemStack());
+
         addBackToPage(inventory);
 
         openInventory(inventory);
@@ -201,6 +205,20 @@ public class InventoryModule {
             setPlaceholder(inventory);
 
             addBackToPage(inventory);
+
+            openInventory(inventory);
+        }
+    }
+
+    public void openLevelInvnetory(final int site) {
+        if (site == 1) {
+            final LevelModule levelModule = new LevelModule(player.getUniqueId());
+            final Inventory inventory = Bukkit.createInventory(null, 9 * 6, "§8» §aLevel §8«");
+            setPlaceholder(inventory);
+
+            inventory.setItem(13, new ItemCreator(Material.PAPER).setName("§8» §7Informationen").setLore("§7INFO").setFlags().setAmount(1).toItemStack());
+            inventory.setItem(22, new ItemCreator("399ad7a0431692994b6c412c7eafb9e0fc49975240b73a27d24ed797035fb894").setName("§8» §aDein Level §8× §7" + levelModule.getPlayerLevel() + " §8«").setAmount(1).setFlags().toItemStack());
+
 
             openInventory(inventory);
         }
@@ -331,6 +349,12 @@ public class InventoryModule {
                 inventory.setItem(11, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete").setLore("§aLinksklick zum Auswählen", "§cRechtsklick zum Ablegen").setAmount(1).toItemStack());
             } else {
                 inventory.setItem(11, new ItemCreator(Material.FIREWORK).setName("§8» §cRakete").setLore("§7Preis §8» §a3500 Coins").setAmount(1).toItemStack());
+            }
+
+            if (gameSync.getUserSync("lobby.fly.buy").equalsIgnoreCase("true")) {
+                inventory.setItem(12, new ItemCreator(Material.FIREWORK).setName("§8» §bLobbyFly").setLore("§7Du kannst dieses Gadget", "§7in den Lobby-Einstellungen", "§aAktivieren§7/§cDeaktivieren").setAmount(1).toItemStack());
+            } else {
+                inventory.setItem(12, new ItemCreator(Material.FIREWORK).setName("§8» §bLobbyFly").setLore("§7Preis §8» §a5000 Coins").setAmount(1).toItemStack());
             }
 
             addBackToPage(inventory);
